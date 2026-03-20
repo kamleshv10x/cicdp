@@ -1,16 +1,27 @@
-name: Python CI
+name: CI/CD Python
 
 on:
-  push:
-    branches: [ "main" ]
+    push:
+          branches: [ "main" ]
 
-jobs:
-  run:
-    runs-on: ubuntu-latest
+          jobs:
+              deploy:
+                    runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+                          steps:
+                                  - name: Checkout
+                                            uses: actions/checkout@v4
 
-      - name: Run Python script
-        run: python3 helloworld.py
+                                                    - name: Run locally (CI)
+                                                              run: python3 helloworld.py
+
+                                                                      - name: Deploy to server (CD)
+                                                                                uses: appleboy/ssh-action@v1.0.0
+                                                                                          with:
+                                                                                                      host: ${{ secrets.SERVER_IP }}
+                                                                                                                  username: ${{ secrets.SERVER_USER }}
+                                                                                                                              key: ${{ secrets.SSH_PRIVATE_KEY }}
+                                                                                                                                          script: |
+                                                                                                                                                        echo "Running on server 🚀"
+                                                                                                                                                                    cd ~/cicdp
+                                                                                                                                                                                python3 helloworld.py
