@@ -1,3 +1,3 @@
 # hello.py
 print("Hello, World!");
-print("CI CD working);
+print("Hello from version 2 🚀");
